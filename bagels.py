@@ -1,81 +1,105 @@
 import random
 
+# Configuration Constants
 NUM_DIGITS = 3
 MAX_GUESSES = 10
 
-
 def main():
-    print("Welcome to Bagels!")
-    print(f"I am thinking of a {NUM_DIGITS}-digit number. Try to guess what it is.")
-    print("Here are some clues:")
-    print("When I say:    That means:")
-    print("  Pico         One digit is correct but in the wrong position.")
-    print("  Fermi        One digit is correct and in the right position.")
-    print("  Bagels       No digit is correct.")
-    print(f"You have {MAX_GUESSES} guesses to get it right.\n")
+    """
+    Main game loop for Bagels. 
+    Handles the introduction, game initialization, and play-again logic.
+    """
+    show_instructions()
 
     while True:
         secret_num = get_secret_num()
-        print("I have thought up a number.")
+        print("\nI have thought up a number.")
         print(f"You have {MAX_GUESSES} guesses to get it.")
 
-        num_guesses = 1
-        while num_guesses <= MAX_GUESSES:
-            guess = ''
-            while len(guess) != NUM_DIGITS or not guess.isdecimal():
-                print(f"Guess #{num_guesses}: ")
-                guess = input().strip()
+        game_won = play_round(secret_num)
 
-            clues = get_clues(guess, secret_num)
-            print(clues)
-            num_guesses += 1
+        if not game_won:
+            print(f"You've run out of guesses. The answer was {secret_num}.")
 
-            if guess == secret_num:
-                break
-            if num_guesses > MAX_GUESSES:
-                print(f"You've run out of guesses. The answer was {secret_num}.")
-
-        print("Do you want to play again? (yes or no)")
-        if not input().lower().startswith('y'):
+        print("\nDo you want to play again? (yes/no)")
+        if not input("> ").lower().startswith('y'):
             break
+            
     print("Thanks for playing!")
 
+def show_instructions():
+    """Prints the game rules and clue definitions to the console."""
+    instructions = f"""
+Welcome to Bagels!
+I am thinking of a {NUM_DIGITS}-digit number with no repeating digits.
+Try to guess what it is. Here are some clues:
+
+When I say:    That means:
+  Pico         One digit is correct but in the wrong position.
+  Fermi        One digit is correct and in the right position.
+  Bagels       No digit is correct.
+    """
+    print(instructions)
 
 def get_secret_num():
-    """Returns a string made upt of NUM_DIGITS unique random digits."""
-    numbers = list('0123456789')  # Create a list of digits 0-9.
-    random.shuffle(numbers)  # Shuffle them into random order.
-
-    # Get the first NUM_DIGITS digits in the list for the secret number.
-    secret_num = ''
-    for i in range(NUM_DIGITS):
-        secret_num += str(numbers[i])
-    return secret_num
-
+    """
+    Generates a string of unique random digits.
+    
+    Returns:
+        str: A string of length NUM_DIGITS containing unique digits 0-9.
+    """
+    numbers = list('0123456789')
+    random.shuffle(numbers)
+    return ''.join(numbers[:NUM_DIGITS])
 
 def get_clues(guess, secret_num):
-    """Returns a string with the pico, fermi, bagels clues for a guess and secret number pair."""
+    """
+    Determines the Pico, Fermi, or Bagels clues for a given guess.
+    
+    Args:
+        guess (str): The user's input string.
+        secret_num (str): The target number string.
+        
+    Returns:
+        str: A space-separated string of clues, sorted alphabetically.
+    """
     if guess == secret_num:
         return "You got it!"
 
     clues = []
-
     for i in range(len(guess)):
         if guess[i] == secret_num[i]:
-            # A correct digit in the correct place.
             clues.append("Fermi")
         elif guess[i] in secret_num:
-            # A correct digit in the wrong place.
             clues.append("Pico")
 
-    if len(clues) == 0:
-        return "Bagels"  # There are no correct digits at all.
-    else:
-        # Sort the clues into alphabetical order so their order doesn't give information away.
-        clues.sort()
-        # Make a single string from the list of clues.
-        return ' '.join(clues)
+    if not clues:
+        return "Bagels"
     
+    clues.sort()
+    return ' '.join(clues)
+
+def play_round(secret_num):
+    """
+    Handles the guessing logic for a single round of the game.
+    
+    Returns:
+        bool: True if the user guessed the number, False otherwise.
+    """
+    for num_guesses in range(1, MAX_GUESSES + 1):
+        guess = ""
+        # Validation Loop
+        while len(guess) != NUM_DIGITS or not guess.isdecimal():
+            print(f"Guess #{num_guesses}:")
+            guess = input("> ").strip()
+
+        clues = get_clues(guess, secret_num)
+        print(clues)
+
+        if guess == secret_num:
+            return True
+            
+    return False
 
 if __name__ == "__main__":
     main()
