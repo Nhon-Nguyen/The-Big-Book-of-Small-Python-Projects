@@ -55,8 +55,13 @@ def get_secret_num():
     Returns:
         str: A string of length NUM_DIGITS containing unique digits 0-9.
     """
+    # Create a list of individual digit strings from '0' to '9'
     numbers = list('0123456789')
+
+    # Randomly reorder the elements in the list in-place
     random.shuffle(numbers)
+
+    # Join the first NUM_DIGITS elements into a single string and return it
     return ''.join(numbers[:NUM_DIGITS])
 
 def get_clues(guess, secret_num):
