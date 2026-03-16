@@ -30,14 +30,14 @@ def main():
 def show_instructions():
     """Prints the game rules and clue definitions to the console."""
     instructions = f"""
-Welcome to Bagels!
-I am thinking of a {NUM_DIGITS}-digit number with no repeating digits.
-Try to guess what it is. Here are some clues:
+    Welcome to Bagels!
+    I am thinking of a {NUM_DIGITS}-digit number with no repeating digits.
+    Try to guess what it is. Here are some clues:
 
-When I say:    That means:
-  Pico         One digit is correct but in the wrong position.
-  Fermi        One digit is correct and in the right position.
-  Bagels       No digit is correct.
+    When I say:    That means:
+    Pico           One digit is correct but in the wrong position.
+    Fermi          One digit is correct and in the right position.
+    Bagels         No digit is correct.
     """
     print(instructions)
 
