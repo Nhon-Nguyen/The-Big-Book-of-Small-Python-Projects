@@ -1,3 +1,7 @@
+"""This code is a simulation of the Birthday Paradox—the
+counterintuitive mathematical fact that in a group of just 23 people,
+there is a 50% chance that at least two of them share a birthday."""
+
 import datetime
 import random
 
