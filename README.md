@@ -6,3 +6,4 @@ This repository contains my personal implementations and adaptations of projects
 
 1. Bagels
 2. Birthday Paradox
+3. Bitmap Message
