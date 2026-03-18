@@ -1,5 +1,7 @@
 import sys
 
+# Spaces represent empty areas where nothing should be printed.
+# (*) characters represent areas where characters from the message should be printed.
 bitmap = """
 ....................................................................
    **************   *  *** **  *      ******************************
